@@ -1,6 +1,6 @@
 package com.example.taeksu.chatkut.openchannel;
 
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,10 +13,16 @@ import com.example.taeksu.chatkut.R;
 
 public class OpenChannelActivity extends AppCompatActivity {
 
+    private String customType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_channel);
+
+        //발생시킨 인텐트에서 customType을 받아온다.
+        Intent intent = getIntent();
+        customType = intent.getStringExtra("customtype");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_open_channel);
         setSupportActionBar(toolbar);
@@ -25,8 +31,8 @@ public class OpenChannelActivity extends AppCompatActivity {
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24_dp);
         }
 
-        // Load list of Open Channels
-        Fragment fragment = OpenChannelListFragment.newInstance();
+        // 채널리스트 불러오기
+        Fragment fragment = OpenChannelListFragment.newInstance(customType);
 
         FragmentManager manager = getSupportFragmentManager();
         manager.popBackStack();
@@ -65,9 +71,9 @@ public class OpenChannelActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //cutstomType에 따른 액션바 타이틀 설정//
     void setActionBarTitle(String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(customType);
     }
 }

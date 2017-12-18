@@ -1,6 +1,7 @@
 package com.example.taeksu.chatkut.openchannel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -29,11 +30,16 @@ public class CreateOpenChannelActivity extends AppCompatActivity {
     private TextInputEditText mNameEditText;
     private boolean enableCreate = false;
     private Button mCreateButton;
+    private String mCustomtype; //각 인텐트에 대한 customtype
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_open_channel);
+
+        //발생시킨 intent에 대한 customtype을 mCustomtype에 저장시킴
+        Intent intent = getIntent();
+        mCustomtype = intent.getStringExtra("customtype");
 
         mIMM = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -106,8 +112,9 @@ public class CreateOpenChannelActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //customtype에 대한 각각 다른 channel생성
     private void createOpenChannel(String name) {
-        OpenChannel.createChannelWithOperatorUserIds(name, null, null, null, new OpenChannel.OpenChannelCreateHandler() {
+        OpenChannel.createChannel(name, null, null, mCustomtype, null, new OpenChannel.OpenChannelCreateHandler() {
             @Override
             public void onResult(OpenChannel openChannel, SendBirdException e) {
                 if (e != null) {
@@ -120,6 +127,4 @@ public class CreateOpenChannelActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

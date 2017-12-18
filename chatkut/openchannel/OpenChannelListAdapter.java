@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sendbird.android.OpenChannel;
 import com.example.taeksu.chatkut.R;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An adapter that displays a list of Open Channels in an RecyclerView.
+담헌 -> 후 나오는 채널들을 보여주는 리스트 관련 클래스
  */
 class OpenChannelListAdapter extends RecyclerView.Adapter<OpenChannelListAdapter.ChannelHolder> {
 
@@ -91,9 +92,8 @@ class OpenChannelListAdapter extends RecyclerView.Adapter<OpenChannelListAdapter
         void bind(final Context context, final OpenChannel channel, int position, @Nullable final OnItemClickListener clickListener, @Nullable final OnItemLongClickListener longClickListener) {
             nameText.setText(channel.getName());
 
-            String participantCount = String.format(context.getResources()
-                    .getString(R.string.open_channel_list_participant_count), channel.getParticipantCount());
-            participantCountText.setText(participantCount);
+            int participantCount = channel.getParticipantCount();
+            participantCountText.setText("참가자" + participantCount + "명");
 
             coloredDecorator.setBackgroundColor(Color.parseColor(colorList[position % colorList.length]));
 
@@ -113,8 +113,6 @@ class OpenChannelListAdapter extends RecyclerView.Adapter<OpenChannelListAdapter
                     @Override
                     public boolean onLongClick(View v) {
                         longClickListener.onItemLongPress(channel);
-
-                        // return true if the callback consumed the long click
                         return true;
                     }
                 });

@@ -7,6 +7,7 @@ import com.sendbird.android.SendBird;
 
 public class BaseApplication extends Application {
 
+    //sand bird에서 부여해준 ID사용
     private static final String APP_ID = "615116CC-CC78-4E40-A4D1-688453713410"; // US-1 Demo
     public static final String VERSION = "3.0.38";
 

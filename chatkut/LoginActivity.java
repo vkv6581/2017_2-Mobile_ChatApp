@@ -61,10 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         // A loading indicator
         mProgressBar = (ContentLoadingProgressBar) findViewById(R.id.progress_bar_login);
 
-        // Display current SendBird and app versions in a TextView
-        String sdkVersion = String.format(getResources().getString(R.string.all_app_version),
-                BaseApplication.VERSION, SendBird.getSDKVersion());
-        ((TextView) findViewById(R.id.text_login_versions)).setText(sdkVersion);
     }
 
     @Override
@@ -113,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                 updateCurrentUserInfo(userNickname);
 
                 // Proceed to MainActivity
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, Main_bookmark.class);
                 startActivity(intent);
                 finish();
             }

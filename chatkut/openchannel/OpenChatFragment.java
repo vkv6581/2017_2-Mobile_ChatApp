@@ -52,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-
 public class OpenChatFragment extends Fragment {
 
     private static final String LOG_TAG = OpenChatFragment.class.getSimpleName();
@@ -195,12 +194,12 @@ public class OpenChatFragment extends Fragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // Permission granted.
-                    Snackbar.make(mRootLayout, "Storage permissions granted. You can now upload or download files.",
+                    Snackbar.make(mRootLayout, "권한이 승인되었습니다.",
                             Snackbar.LENGTH_LONG)
                             .show();
                 } else {
                     // Permission denied.
-                    Snackbar.make(mRootLayout, "Permissions denied.",
+                    Snackbar.make(mRootLayout, "권한이 거부되었습니다.",
                             Snackbar.LENGTH_SHORT)
                             .show();
                 }
@@ -324,7 +323,7 @@ public class OpenChatFragment extends Fragment {
     }
 
     private void showMessageOptionsDialog(final BaseMessage message) {
-        String[] options = new String[] { "Edit message", "Delete message" };
+        String[] options = new String[] { "메시지 수정하기", "메시지 삭제하기" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -347,7 +346,7 @@ public class OpenChatFragment extends Fragment {
                 mEditingMessage = null;
 
                 mUploadFileButton.setVisibility(View.VISIBLE);
-                mMessageSendButton.setText("SEND");
+                mMessageSendButton.setText("전송");
                 mMessageEditText.setText("");
 
 //                mIMM.hideSoftInputFromWindow(mMessageEditText.getWindowToken(), 0);
@@ -358,7 +357,7 @@ public class OpenChatFragment extends Fragment {
                 mEditingMessage = editingMessage;
 
                 mUploadFileButton.setVisibility(View.GONE);
-                mMessageSendButton.setText("SAVE");
+                mMessageSendButton.setText("저장");
                 String messageString = ((UserMessage)editingMessage).getMessage();
                 if (messageString == null) {
                     messageString = "";
@@ -433,7 +432,7 @@ public class OpenChatFragment extends Fragment {
             requestStoragePermissions();
         } else {
             new AlertDialog.Builder(getActivity())
-                    .setMessage("Download file?")
+                    .setMessage("파일을 다운로드하시겠습니까?")
                     .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -449,8 +448,8 @@ public class OpenChatFragment extends Fragment {
 
     private void showUploadConfirmDialog(final Uri uri) {
         new AlertDialog.Builder(getActivity())
-                .setMessage("Upload file?")
-                .setPositiveButton(R.string.upload, new DialogInterface.OnClickListener() {
+                .setMessage("파일을 업로드하시겠습니까?")
+                .setPositiveButton("업로드", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -464,7 +463,7 @@ public class OpenChatFragment extends Fragment {
                         }
                     }
                 })
-                .setNegativeButton(R.string.cancel, null).show();
+                .setNegativeButton("취소", null).show();
     }
 
     private void requestImage() {
@@ -479,7 +478,7 @@ public class OpenChatFragment extends Fragment {
             intent.setType("image/* video/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             // Always show the chooser (if there are multiple options available)
-            startActivityForResult(Intent.createChooser(intent, "Select Media"), INTENT_REQUEST_CHOOSE_IMAGE);
+            startActivityForResult(Intent.createChooser(intent, "미디어 선택"), INTENT_REQUEST_CHOOSE_IMAGE);
 
             // Set this as false to maintain connection
             // even when an external Activity is started.
@@ -493,9 +492,9 @@ public class OpenChatFragment extends Fragment {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
-            Snackbar.make(mRootLayout, "Storage access permissions are required to upload/download files.",
+            Snackbar.make(mRootLayout, "권한이 필요합니다.",
                     Snackbar.LENGTH_LONG)
-                    .setAction("Okay", new View.OnClickListener() {
+                    .setAction("예", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -558,7 +557,7 @@ public class OpenChatFragment extends Fragment {
                     Log.e(LOG_TAG, e.toString());
                     Toast.makeText(
                             getActivity(),
-                            "Send failed with error " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT)
+                            "오류 " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
@@ -584,7 +583,7 @@ public class OpenChatFragment extends Fragment {
         final int size = (Integer) info.get("size");
 
         if (path.equals("")) {
-            Toast.makeText(getActivity(), "File must be located in local storage.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "파일이 내부 저장소에 있어야 합니다.", Toast.LENGTH_LONG).show();
         } else {
             // Send image with thumbnails in the specified dimensions
             mChannel.sendFileMessage(file, name, mime, size, "", null, thumbnailSizes, new BaseChannel.SendFileMessageHandler() {
@@ -631,11 +630,11 @@ public class OpenChatFragment extends Fragment {
     private void loadNextMessageList(int numMessages) throws NullPointerException {
 
         if (mChannel == null) {
-            throw new NullPointerException("Current channel instance is null.");
+            throw new NullPointerException("채널이 없습니다.");
         }
 
         if (mPrevMessageListQuery == null) {
-            throw new NullPointerException("Current query instance is null.");
+            throw new NullPointerException("채널이 없습니다.");
         }
 
         mPrevMessageListQuery.load(numMessages, true, new PreviousMessageListQuery.MessageListQueryResult() {
@@ -660,7 +659,7 @@ public class OpenChatFragment extends Fragment {
             public void onUpdated(UserMessage userMessage, SendBirdException e) {
                 if (e != null) {
                     // Error!
-                    Toast.makeText(getActivity(), "Error " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "에러 " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -681,7 +680,7 @@ public class OpenChatFragment extends Fragment {
             public void onResult(SendBirdException e) {
                 if (e != null) {
                     // Error!
-                    Toast.makeText(getActivity(), "Error " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "에러 " + e.getCode() + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
