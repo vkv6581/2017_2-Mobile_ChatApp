@@ -78,7 +78,7 @@ public class OpenChannelListFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        ((OpenChannelActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.all_open_channels));
+        ((OpenChannelActivity) getActivity()).setActionBarTitle(mCustomType);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_open_channel_list);
         mChannelListAdapter = new OpenChannelListAdapter(getContext());
@@ -144,11 +144,12 @@ public class OpenChannelListFragment extends Fragment {
             public void onItemClick(OpenChannel channel) {
                 //채널의 Uri를 저장한 후 채널에 입장!!
                 String channelUrl = channel.getUrl();
-                OpenChatFragment fragment = OpenChatFragment.newInstance(channelUrl);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container_open_channel, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                String name = channel.getName();
+
+                Intent intent = new Intent(getActivity(), OpenChatActivity.class);
+                intent.putExtra("channelUrl", channelUrl);
+                intent.putExtra("name", name);
+                startActivity(intent);
             }
         });
 
@@ -176,19 +177,19 @@ public class OpenChannelListFragment extends Fragment {
                     //셰어드 프리퍼런스에 저장하기 위해 에디터 생성
                     SharedPreferences.Editor editor = bookmark.edit();
                     //uri와 이름을 저장한다.
-                    editor.putString(bookmarkcount+"Uri",channel.getUrl());
+                    editor.putString(bookmarkcount+"Url",channel.getUrl());
                     editor.putString(bookmarkcount+"name",channel.getName());
 
                     //즐겨찾기를 추가했기 때문에 개수를 1개 증가시켜 준다.
                     editor.putInt("count",bookmarkcount+1);
 
                     editor.commit();
+                    Toast.makeText(getContext(), channel.getName() + "이 추가되었습니다.", Toast.LENGTH_LONG).show();
                 }
             }
         });
         builder.create().show();
     }
-
 
     /**
      * Creates a new query to get the list of the user's Open Channels,

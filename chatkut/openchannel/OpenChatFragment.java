@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taeksu.chatkut.BookmarkActivity;
 import com.sendbird.android.AdminMessage;
 import com.sendbird.android.BaseChannel;
 import com.sendbird.android.BaseMessage;
@@ -376,16 +377,31 @@ public class OpenChatFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((OpenChannelActivity)context).setOnBackPressedListener(new OpenChannelActivity.onBackPressedListener() {
-            @Override
-            public boolean onBack() {
-                if (mCurrentState == STATE_EDIT) {
-                    setState(STATE_NORMAL, null);
-                    return true;
+        String className = getActivity().getLocalClassName();
+        if(className.equalsIgnoreCase("OpenChannelActivity")) {
+            ((OpenChannelActivity) context).setOnBackPressedListener(new OpenChannelActivity.onBackPressedListener() {
+                @Override
+                public boolean onBack() {
+                    if (mCurrentState == STATE_EDIT) {
+                        setState(STATE_NORMAL, null);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
+        else if(className.equalsIgnoreCase("BookmarkActivity")) {
+            ((BookmarkActivity) context).setOnBackPressedListener(new BookmarkActivity.onBackPressedListener() {
+                @Override
+                public boolean onBack() {
+                    if (mCurrentState == STATE_EDIT) {
+                        setState(STATE_NORMAL, null);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     private void setUpRecyclerView() {
@@ -541,7 +557,14 @@ public class OpenChatFragment extends Fragment {
                         loadInitialMessageList(30);
 
                         // Set action bar title to name of channel
-                        ((OpenChannelActivity) getActivity()).setActionBarTitle(mChannel.getName());
+                        String className = getActivity().getLocalClassName();
+                        if(className.equalsIgnoreCase("OpenChannelActivity")) {
+                            ((OpenChannelActivity) getActivity()).setActionBarTitle(mChannel.getName());
+                        }
+                        else if(className.equalsIgnoreCase("OpenChatActivity")) {
+                            ((OpenChatActivity) getActivity()).setActionBarTitle(mChannel.getName());
+                        }
+
                     }
                 });
             }

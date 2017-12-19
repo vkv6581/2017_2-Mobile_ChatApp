@@ -1,20 +1,20 @@
 package com.example.taeksu.chatkut;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.sendbird.android.SendBird;
-import com.sendbird.android.SendBirdException;
 import com.example.taeksu.chatkut.openchannel.OpenChannelActivity;
 import com.example.taeksu.chatkut.utils.PreferenceUtils;
+import com.sendbird.android.SendBird;
+import com.sendbird.android.SendBirdException;
 
-public class MainActivity extends AppCompatActivity {
+public class LectureListActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         /*this.setTitle("건물");*/
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lecture_list);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(mToolbar);
@@ -30,57 +30,83 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24_dp);
         }
+
         //각 건물에 대한 인텐트를 만들어서 name과 value를 정해줌//
-        findViewById(R.id.linear_layout_damheon_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent dam_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                dam_intent.putExtra("customtype", "담헌실학관");
+                Intent dam_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                dam_intent.putExtra("customtype", "기계공학부");
                 startActivity(dam_intent);
             }
         });
 
-        findViewById(R.id.linear_layout_human_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent human_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                human_intent.putExtra("customtype", "인문경영관");
+                Intent human_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                human_intent.putExtra("customtype", "메카트로닉스공학부");
                 startActivity(human_intent);
             }
         });
 
-        findViewById(R.id.linear_layout_first_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent first_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                first_intent.putExtra("customtype", "1공학관");
+                Intent first_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                first_intent.putExtra("customtype", "전기전자통신공학부");
                 startActivity(first_intent);
             }
         });
 
-        findViewById(R.id.linear_layout_second_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent second_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                second_intent.putExtra("customtype", "2공학관");
+                Intent second_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                second_intent.putExtra("customtype", "컴퓨터공학부");
                 startActivity(second_intent);
             }
         });
 
-        findViewById(R.id.linear_layout_third_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent third_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                third_intent.putExtra("customtype", "3공학관");
+                Intent third_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                third_intent.putExtra("customtype", "디자인건축공학부");
                 startActivity(third_intent);
             }
         });
 
-        findViewById(R.id.linear_layout_fourth_channels).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.linear_layout_6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent fourth_intent = new Intent(MainActivity.this, OpenChannelActivity.class);
-                fourth_intent.putExtra("customtype", "4공학관");
+                Intent fourth_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                fourth_intent.putExtra("customtype", "에너지신소재화학공학부");
+                startActivity(fourth_intent);
+            }
+        });
+
+        findViewById(R.id.linear_layout_7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fourth_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                fourth_intent.putExtra("customtype", "산업경영학부");
+                startActivity(fourth_intent);
+            }
+        });
+        findViewById(R.id.linear_layout_8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fourth_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                fourth_intent.putExtra("customtype", "교양학부");
+                startActivity(fourth_intent);
+            }
+        });
+        findViewById(R.id.linear_layout_9).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent fourth_intent = new Intent(LectureListActivity.this, OpenChannelActivity.class);
+                fourth_intent.putExtra("customtype", "HRD학과");
                 startActivity(fourth_intent);
             }
         });
@@ -117,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     //로그아웃
     private void disconnect() {
         SendBird.unregisterPushTokenAllForCurrentUser(new SendBird.UnregisterPushTokenHandler() {
@@ -135,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 SendBird.disconnect(new SendBird.DisconnectHandler() {
                     @Override
                     public void onDisconnected() {
-                        PreferenceUtils.setConnected(MainActivity.this, false);
+                        PreferenceUtils.setConnected(LectureListActivity.this, false);
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                         finish();

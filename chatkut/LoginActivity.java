@@ -9,13 +9,11 @@ import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
-import com.example.taeksu.chatkut.R;
 import com.example.taeksu.chatkut.utils.PreferenceUtils;
 
 public class LoginActivity extends AppCompatActivity {
@@ -95,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                             .show();
 
                     // Show login failure snackbar
-                    showSnackbar("Login to SendBird failed");
+                    showSnackbar("로그인 실패.");
                     mConnectButton.setEnabled(true);
                     PreferenceUtils.setConnected(LoginActivity.this, false);
                     return;
@@ -108,9 +106,11 @@ public class LoginActivity extends AppCompatActivity {
                 // Update the user's nickname
                 updateCurrentUserInfo(userNickname);
 
-                // Proceed to MainActivity
-                Intent intent = new Intent(LoginActivity.this, Main_bookmark.class);
+                // 로그인 인텐트 전달로 실행.
+                Intent intent = new Intent(LoginActivity.this, BookmarkActivity.class);
                 startActivity(intent);
+
+                Toast.makeText(LoginActivity.this, "로그인", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                             .show();
 
                     // Show update failed snackbar
-                    showSnackbar("Update user nickname failed");
+                    showSnackbar("유저 정보 갱신에 실패하였습니다.");
 
                     return;
                 }

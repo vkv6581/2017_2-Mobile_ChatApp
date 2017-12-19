@@ -74,6 +74,6 @@ public class OpenChannelActivity extends AppCompatActivity {
     //cutstomType에 따른 액션바 타이틀 설정//
     void setActionBarTitle(String title) {
         if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle(customType);
+            getSupportActionBar().setTitle(title);
     }
 }
